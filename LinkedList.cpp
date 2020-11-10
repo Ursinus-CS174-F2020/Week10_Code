@@ -1,34 +1,34 @@
 #include <stdio.h>
 
-class Node {
+template <class Item> class Node {
   private:
       Node* next; // Arrow to next node
-      int value;
+      Item value;
   
   public:
-      Node(int value) {
+      Node(Item value) {
           // x->y
           // (*x).y
           this->value = value;
           next = nullptr;
       }
-      void updateReference(Node* next) {
+      void updateNext(Node* next) {
           this->next = next;
       }
       Node* getNext() {
           return this->next;
       }
-      int getValue() {
+      Item getValue() {
           return this->value;
       }
-      void setValue(int value) {
+      void setValue(Item value) {
           this->value = value;
       }
 };
 
-class LinkedList {
+template <class Item> class LinkedList {
     private:
-        Node* head;
+        Node<Item>* head;
     public:
         LinkedList() {
             head = nullptr;
@@ -44,38 +44,38 @@ class LinkedList {
             return head == nullptr;
         }
 
-        void addLast(int value) {
-            Node* newNode = new Node(value);
+        void addLast(Item value) {
+            Node<Item>* newNode = new Node<Item>(value);
             if (head == nullptr){
                 head = newNode;
             }
             else {
-                Node* node = head;
+                Node<Item>* node = head;
                 // Go until I find the end of the list
                 // where the arrow points to nothing
                 while (node->getNext() != nullptr) {
                     node = node->getNext();
                 }
-                node->updateReference(newNode);
+                node->updateNext(newNode);
             }
         }
 
-        void addFirst(int value) {
-          Node* newNode = new Node(value);
+        void addFirst(Item value) {
+          Node<Item>* newNode = new Node<Item>(value);
           if (head == nullptr) {
               head = newNode;
           }
           else {
-              newNode->updateReference(head);
+              newNode->updateNext(head);
               head = newNode;
           }
         }
 
-        int removeFirst() {
-            int ret = -1;
+        Item removeFirst() {
+            Item ret;
             if (head != nullptr) {
                 ret = head->getValue();
-                Node* newHead = head->getNext();
+                Node<Item>* newHead = head->getNext();
                 delete head;
                 head = newHead;
             }
@@ -83,9 +83,9 @@ class LinkedList {
         }
 
         void printList() {
-          Node* node = head;
+          Node<Item>* node = head;
           while (node != nullptr) {
-            printf("%i", node->getValue());
+            printf("%g", node->getValue());
             if (node->getNext() != nullptr) {
               printf(", ");
             }
@@ -95,8 +95,8 @@ class LinkedList {
 };
 
 int main() {
-    LinkedList L;
-    L.addFirst(3);
+    LinkedList<float> L;
+    L.addFirst(3.5);
     L.addFirst(2);
     L.addLast(4);
     L.addLast(5);
